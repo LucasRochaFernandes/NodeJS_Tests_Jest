@@ -1,3 +1,4 @@
+import { AppError } from "../../../../shared/errors/AppError";
 import { inject, injectable } from "tsyringe";
 
 import { IUsersRepository } from "../../../users/repositories/IUsersRepository";
@@ -39,6 +40,10 @@ export class CreateStatementUseCase {
     }
 
     if (sender_id) {
+      if (sender_id === user_id) {
+        throw new AppError("You can not send money to yourself");
+      }
+
       const { balance } = await this.statementsRepository.getUserBalance({
         user_id: sender_id,
       });
@@ -51,7 +56,7 @@ export class CreateStatementUseCase {
         user_id: sender_id,
         type,
         amount,
-        description
+        description,
       });
 
       return await this.statementsRepository.create({

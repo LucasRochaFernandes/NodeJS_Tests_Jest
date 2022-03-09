@@ -16,6 +16,7 @@ export class CreateStatementController {
     const { id: user_id } = request.user;
     const { amount, description } = request.body;
 
+
     const createStatement = container.resolve(CreateStatementUseCase);
 
     const splittedPath = request.originalUrl.split("/");
