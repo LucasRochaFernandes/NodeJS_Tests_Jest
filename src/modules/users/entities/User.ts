@@ -3,16 +3,17 @@ import {
   CreateDateColumn,
   Entity,
   OneToMany,
-  PrimaryGeneratedColumn
-} from 'typeorm';
-import { v4 as uuid } from 'uuid';
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from "typeorm";
+import { v4 as uuid } from "uuid";
 
-import { Statement } from '../../statements/entities/Statement';
+import { Statement } from "../../statements/entities/Statement";
 
-@Entity('users')
+@Entity("users")
 export class User {
-  @PrimaryGeneratedColumn('uuid')
-  id?: string;
+  @PrimaryGeneratedColumn("uuid")
+  readonly id?: string;
 
   @Column()
   name: string;
@@ -23,17 +24,17 @@ export class User {
   @Column()
   password: string;
 
-  @OneToMany(() => Statement, statement => statement.user)
+  @OneToMany(() => Statement, (statement) => statement.user)
   statement: Statement[];
 
   @CreateDateColumn()
   created_at: Date;
 
-  @CreateDateColumn()
+  @UpdateDateColumn()
   updated_at: Date;
 
   constructor() {
-    if(!this.id) {
+    if (!this.id) {
       this.id = uuid();
     }
   }
